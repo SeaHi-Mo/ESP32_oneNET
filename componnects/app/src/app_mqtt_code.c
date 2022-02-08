@@ -68,14 +68,15 @@ esp_err_t app_open_mqtt_connection(void)
     esp_mqtt_client_config_t oneNET_client_cfg = {
         .host = ONENET_HOST,
         .port = ONENET_PORT,
-        .client_cert_pem = (const char*)client_cert_pem_start,
-        .client_key_pem = NULL,
         .event_handle = oneNET_mqtt_event_handler,
         .client_id = ONENET_CLIENT_ID,
         .username = ONENET_USER_NAME,
         .password = ONENET_PWD_TOKEN,
+
     };
 
     esp_mqtt_client_handle_t oneNET_client_handler = esp_mqtt_client_init(&oneNET_client_cfg);
     esp_mqtt_client_start(oneNET_client_handler);
+
+    return ESP_OK;
 }
