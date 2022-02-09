@@ -62,16 +62,16 @@ static esp_err_t oneNET_mqtt_event_handler(esp_mqtt_event_handle_t event)
  *
  * @return esp_err_t
  */
-esp_err_t app_open_mqtt_connection(void)
+esp_err_t app_open_mqtt_connection(oneNET_connect_msg_t* oneNET_connect_msg)
 {
-
+    onenet_connect_msg_init(oneNET_connect_msg, ONENET_METHOD_MD5);
     esp_mqtt_client_config_t oneNET_client_cfg = {
         .host = ONENET_HOST,
         .port = ONENET_PORT,
         .event_handle = oneNET_mqtt_event_handler,
-        .client_id = ONENET_CLIENT_ID,
-        .username = ONENET_USER_NAME,
-        .password = ONENET_PWD_TOKEN,
+        .client_id = oneNET_connect_msg->device_name,
+        .username = oneNET_connect_msg->produt_id,
+        .password = oneNET_connect_msg->token,
 
     };
 
