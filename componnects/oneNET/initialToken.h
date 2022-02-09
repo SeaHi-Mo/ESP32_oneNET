@@ -3,19 +3,30 @@
 
 
 //使能自动注册,屏蔽 则不使用自动注册功能
-
-#define ONENET_DEVICE_DYNAMIC_ENABLE 
-
-#define ONENET_PRODUCT_ID "ix6VgmdyYg"  //产品ID
-
+/**
+ * @brief 启动自动注册功能，不适用注释掉即可
+ *
+ */
+ //#define ONENET_DEVICE_DYNAMIC_ENABLE 
+  /**
+   * @brief oneNET 的产品ID
+   *
+   */
+#define ONENET_PRODUCT_ID " "  //产品ID
 
 #ifdef ONENET_DEVICE_DYNAMIC_ENABLE
+   /**
+    * @brief oneNET 的产品密钥
+    *
+    */
+#define ONENET_PRODUCT_KEY " " //产品KEY
 
-#define ONENET_PRODUCT_KEY "+0fTu1ndNk3I8D3QUazGnsP024G0VQaPm8dnz+Iixm8=" //产品KEY
-
-#elif
-
-#define ONENET_DEVICE_KEY "" //设备KEY
+#else
+   /**
+    * @brief oneNET 的设备密钥 不启用自动注册功能请填入设备key
+    *
+    */
+#define ONENET_DEVICE_KEY " " //设备KEY
 
 #endif
 

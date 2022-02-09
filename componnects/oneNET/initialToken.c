@@ -20,12 +20,10 @@
 
 #include "initialToken.h"
 
-
-static char* TAG = "oneNET token";
-/**
- * @brief 连接信息
- *
- */
+ /**
+  * @brief 连接信息
+  *
+  */
 typedef struct {
     char* et;
     char* version;
@@ -84,8 +82,6 @@ char* url_encoding_for_token(CONNECT_MSG* msg)
        {"=","%3D"},
     };
     char* token = calloc(1, 512);
-    char* version = temp_msg->version;
-
     char* p = malloc(128);
     /**
      * @brief res 进行url编码
@@ -117,7 +113,6 @@ char* url_encoding_for_token(CONNECT_MSG* msg)
     }
     free(p);
     sprintf(token, "version=%s&res=%s&et=%s&method=%s&sign=%s", temp_msg->version, temp_msg->res, temp_msg->et, temp_msg->method, temp_msg->sign);
-    // printf("token=%s\r\n", token);
     return token;
 }
 /**
@@ -146,6 +141,7 @@ esp_err_t onenet_connect_msg_init(oneNET_connect_msg_t* oneNET_connect_msg, meth
     esp_wifi_get_mac(WIFI_IF_STA, mac);
     sprintf(oneNET_connect_msg->device_name, "%02X%02X%02X%02X%02X%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     memset(oneNET_msg.res, 0, sizeof(oneNET_msg.res));
+
     sprintf(oneNET_msg.res, "products/%s/devices/%s", oneNET_connect_msg->produt_id, oneNET_connect_msg->device_name);
 
     size_t declen = 0, enclen = 0;
@@ -155,8 +151,8 @@ esp_err_t onenet_connect_msg_init(oneNET_connect_msg_t* oneNET_connect_msg, meth
     mbedtls_base64_decode(NULL, enclen, &declen, (unsigned char*)ONENET_PRODUCT_KEY, enclen);
     mbedtls_base64_decode((unsigned char*)plaintext, sizeof(plaintext), &declen, (unsigned char*)ONENET_PRODUCT_KEY, strlen((char*)ONENET_PRODUCT_KEY));
 
-#elif
-    mbedtls_base64_decode(NULL, enclen, &declen, (unsigned char*)ONENET_DEVICET_KEY, enclen);
+#else
+    mbedtls_base64_decode(NULL, enclen, &declen, (unsigned char*)ONENET_DEVICE_KEY, enclen);
     mbedtls_base64_decode((unsigned char*)plaintext, sizeof(plaintext), &declen, (unsigned char*)ONENET_DEVICE_KEY, strlen((char*)ONENET_DEVICE_KEY));
 #endif
     /**
@@ -175,7 +171,6 @@ esp_err_t onenet_connect_msg_init(oneNET_connect_msg_t* oneNET_connect_msg, meth
         case ONENET_METHOD_SHA1:
             oneNET_msg.method = "sha1";
             sprintf(StringForSignature, "%s\n%s\n%s\n%s", oneNET_msg.et, oneNET_msg.method, oneNET_msg.res, oneNET_msg.version);
-
             esp_hmac_sha1((unsigned char*)plaintext, declen, (unsigned char*)StringForSignature, strlen(StringForSignature), (unsigned char*)hmac);
             break;
         case ONENET_METHOD_SHA256:
@@ -191,7 +186,7 @@ esp_err_t onenet_connect_msg_init(oneNET_connect_msg_t* oneNET_connect_msg, meth
     mbedtls_base64_encode((unsigned char*)ciphertext, sizeof(ciphertext), &enclen, (unsigned char*)hmac, strlen(hmac));
     memset(oneNET_msg.sign, 0, sizeof(oneNET_msg.sign));
     strcpy(oneNET_msg.sign, ciphertext);
-    ESP_LOG_BUFFER_HEXDUMP(TAG, oneNET_msg.sign, strlen(oneNET_msg.sign), ESP_LOG_INFO);
+    //  ESP_LOG_BUFFER_HEXDUMP(TAG, oneNET_msg.sign, strlen(oneNET_msg.sign), ESP_LOG_INFO);
     char* token = url_encoding_for_token(&oneNET_msg);
     strcpy(oneNET_connect_msg->token, token);
     free(mac);
