@@ -106,3 +106,5 @@ API调用示例，使用hmac_md5 算法：
 oneNET_connect_msg_t oneNET_connect_msg;
 onenet_connect_msg_init(&oneNET_connect_msg,ONENET_METHOD_MD5);
 ```
+
+## 3.测试源码地址：https://github.com/SeaHi-Mo/ESP32_oneNET
