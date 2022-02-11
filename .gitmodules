@@ -1,3 +1,4 @@
-[submodule "componnects/oneNET/cipher"]
-	path = componnects/oneNET/cipher
-	url = https://github.com/mygityf/cipher.git
+
+[submodule "componnects/oneNET_token"]
+	path = componnects/oneNET_token
+	url = https://github.com/SeaHi-Mo/oneNET_token.git
