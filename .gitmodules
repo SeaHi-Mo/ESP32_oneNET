@@ -1,4 +1,4 @@
 
 [submodule "componnects/oneNET_token"]
 	path = componnects/oneNET_token
-	url = https://github.com/SeaHi-Mo/oneNET_token.git
+	url = ../../oneNET_token.git
